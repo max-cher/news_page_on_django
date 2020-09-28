@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Последние новости{% endblock %}
+
+{% block content %}
+
+<h2>Топ цитат bash.org</h2>
+
+<form action="{% url 'posts:start_search' %}" method="POST">
+	
+	{% csrf_token %}
+	
+	<input type="text" required placeholder="" name="keyword">
+	
+	<button type="submit">Поиск</button>
+</form>
+	
+{% if posts_list  or bash_posts %}
+
+		{% for a in posts_list %}
+			<h3>{{a.post_title}}</h3>
+			{{a.post_text|linebreaksbr}}<br><br>
+			Рейтинг:{{a.post_rating}}<br>
+			<em>{{a.pub_date}}</em>
+			<hr>
+		{% endfor %}
+	
+		{% for a in bash_posts %}
+			<h3>{{a.id}}</h3>
+			{{a.text|linebreaksbr}}<br><br>
+			Рейтинг:{{a.rating}}<br>
+			<em>{{a.date_pub}}</em>
+			<hr>
+		{% endfor %}
+	
+	{% else %}
+		НОВОСТИ НЕ НАЙДЕНЫ!
+	{% endif %}
+	
+{% endblock %}
+
+
